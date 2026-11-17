@@ -3,7 +3,7 @@
  * Real-time filtering, multi-facet selection, price slider, search, sorting, view toggling, and pagination.
  */
 (function () {
-  const DATA_FILE = "assets/data/akshar_marbles_product_data.xlsx";
+  const DATA_FILE = "../assets/data/akshar_marbles_product_data.xlsx";
   const REQUIRED_COLUMNS = [
     "Product ID", "Product Name", "Category", "Origin", "Finish", "Tile Size",
     "Stock Status", "Image Path", "Image Alt", "Badge Text", "Badge Style",
@@ -63,7 +63,15 @@
       return "";
     }
     try {
-      return new URL(value.replace(/\\/g, "/"), document.baseURI).href;
+      const normalized = value.replace(/\\/g, "/")
+        .replace(/^assets\/Front-images\//, "assets/images/")
+        .replace(/^assets\/background\//, "assets/images/background/")
+        .replace(/^assets\/video\//, "assets/videos/");
+      const pagePrefix = window.location.pathname.toLowerCase().includes("/pages/")
+        || window.location.pathname.toLowerCase().includes("/admin/")
+        ? "../"
+        : "";
+      return new URL(normalized.startsWith("assets/") ? pagePrefix + normalized : normalized, document.baseURI).href;
     } catch (error) {
       return "";
     }

@@ -3,6 +3,15 @@
  * Provides role-aware navigation, active link state, user profile dropdowns, and responsive mobile menu.
  */
 (function () {
+  function siteAssetPath(path) {
+    const normalizedPath = path.replace(/^(\.\.\/)+/, '');
+    const prefix = window.location.pathname.toLowerCase().includes('/pages/')
+      || window.location.pathname.toLowerCase().includes('/admin/')
+      ? `../${normalizedPath}`
+      : '';
+    return prefix + normalizedPath;
+  }
+
   /**
    * Determine relative path to the Components folder based on current document location
    */
@@ -14,14 +23,14 @@
         return src.replace('navbar.js', 'navbar.html');
       }
     }
-    return 'Components/navbar.html';
+    return 'components/navbar.html';
   }
 
   /**
    * Adjust relative URLs in the injected HTML according to the component base path
    */
   function adjustRelativePaths(container, basePath) {
-    const dir = basePath.substring(0, basePath.lastIndexOf('Components/'));
+    const dir = basePath.substring(0, basePath.lastIndexOf('components/'));
     if (!dir) return; // Already at root
 
     // If loaded from a subfolder, adjust links and asset sources
@@ -98,7 +107,7 @@
   function renderAuthAction(user) {
     if (!user) {
       return `
-        <a href="login.html" class="btn-header-signin">
+        <a href="pages/login.html" class="btn-header-signin">
           <span>👤</span> Sign In
         </a>
       `;
@@ -106,12 +115,12 @@
 
     if (user.role === 'admin') {
       return `
-        <a href="admin-dashboard.html" class="btn-admin-portal-link" title="Open Admin Console">
+        <a href="admin/dashboard.html" class="btn-admin-portal-link" title="Open Admin Console">
           <span>⚙</span> Admin Console
         </a>
         <div class="user-menu-wrapper" id="store-user-menu">
           <button type="button" class="user-profile-btn" id="user-menu-toggle" aria-expanded="false" aria-label="Account menu">
-            <img src="${user.avatar || 'assets/avatar-rajan.svg'}" alt="${user.name}">
+            <img src="${siteAssetPath(user.avatar || 'assets/avatar-rajan.svg')}" alt="${user.name}">
             <span>${user.name ? user.name.split(' ')[0] : 'Admin'}</span>
             <span class="caret">▾</span>
           </button>
@@ -120,10 +129,10 @@
               <b>${user.name || 'Super Admin'}</b>
               <small>Administrator</small>
             </div>
-            <a href="admin-dashboard.html">◔ Admin Dashboard</a>
-            <a href="admin-inventory.html">▱ Inventory Management</a>
-            <a href="admin-logistics.html">▣ Logistics &amp; Orders</a>
-            <a href="browse.html">💎 Browse Collection</a>
+            <a href="admin/dashboard.html">◔ Admin Dashboard</a>
+            <a href="admin/inventory.html">▱ Inventory Management</a>
+            <a href="admin/logistics.html">▣ Logistics &amp; Orders</a>
+            <a href="pages/browse.html">💎 Browse Collection</a>
             <div class="dropdown-divider"></div>
             <button type="button" id="header-logout-btn" class="dropdown-logout-btn">
               🚪 Sign Out
@@ -138,7 +147,7 @@
     return `
       <div class="user-menu-wrapper" id="store-user-menu">
         <button type="button" class="user-profile-btn" id="user-menu-toggle" aria-expanded="false" aria-label="Account menu">
-          <img src="${user.avatar || 'assets/avatar-ananya.svg'}" alt="${user.name}">
+          <img src="${siteAssetPath(user.avatar || 'assets/avatar-ananya.svg')}" alt="${user.name}">
           <span>${firstName}</span>
           <span class="caret">▾</span>
         </button>
@@ -147,11 +156,11 @@
             <b>${user.name || 'Ananya Sharma'}</b>
             <small>${user.tier || 'VIP Gold Member'}</small>
           </div>
-          <a href="orders.html">📦 My Orders (#ORD-7820)</a>
-          <a href="cart.html">🛒 Shopping Cart (3 items)</a>
-          <a href="browse.html">💎 Browse Collection</a>
+          <a href="pages/orders.html">📦 My Orders (#ORD-7820)</a>
+          <a href="pages/cart.html">🛒 Shopping Cart (3 items)</a>
+          <a href="pages/browse.html">💎 Browse Collection</a>
           <div class="dropdown-divider"></div>
-          <a href="admin-login.html" class="admin-switch-link" style="color:var(--m); font-size:12px;">
+          <a href="admin/login.html" class="admin-switch-link" style="color:var(--m); font-size:12px;">
             ⚙ Admin Portal
           </a>
           <button type="button" id="header-logout-btn" class="dropdown-logout-btn">
@@ -175,17 +184,17 @@
           <b>${user.name}</b>
           <small>${user.role === 'admin' ? 'Administrator' : (user.tier || 'Customer')}</small>
         </div>
-        ${user.role === 'admin' ? '<a href="admin-dashboard.html" style="font-weight:600; color:var(--g);">⚙ Admin Dashboard</a>' : ''}
+        ${user.role === 'admin' ? '<a href="admin/dashboard.html" style="font-weight:600; color:var(--g);">⚙ Admin Dashboard</a>' : ''}
         <button type="button" id="mobile-logout-btn" class="dropdown-logout-btn" style="padding:10px 0; border:0; background:transparent; font-size:14px; cursor:pointer; text-align:left;">
           🚪 Sign Out
         </button>
       `;
     } else {
       authSection = `
-        <a href="login.html" class="btn-header-signin" style="justify-content:center; width:100%;">
+        <a href="pages/login.html" class="btn-header-signin" style="justify-content:center; width:100%;">
           <span>👤</span> Sign In
         </a>
-        <a href="admin-login.html" style="font-size:12px; color:var(--m); text-align:center; padding:6px 0;">
+        <a href="admin/login.html" style="font-size:12px; color:var(--m); text-align:center; padding:6px 0;">
           Administrator Sign In →
         </a>
       `;
@@ -195,7 +204,7 @@
       <div class="mobile-nav-backdrop" id="mobile-nav-backdrop"></div>
       <div class="mobile-nav-drawer" id="mobile-nav-drawer">
         <div class="mobile-drawer-header">
-          <a href="home.html" class="store-brand" style="margin:0;">
+          <a href="index.html" class="store-brand" style="margin:0;">
             <div class="brand-icon" style="width:30px; height:30px; font-size:15px;">◆</div>
             <div class="brand-name" style="font-size:15px;">
               Akshar Marbles
@@ -204,10 +213,10 @@
           <button type="button" class="mobile-drawer-close" id="mobile-drawer-close" aria-label="Close menu">✕</button>
         </div>
         <div class="mobile-drawer-links">
-          <a href="home.html" class="${isHome ? 'active' : ''}">🏠 Home</a>
-          <a href="browse.html" class="${isBrowse ? 'active' : ''}">💎 Browse Collection</a>
-          <a href="orders.html" class="${isOrders ? 'active' : ''}">📦 Track Orders</a>
-          <a href="cart.html" class="${isCart ? 'active' : ''}">🛒 Shopping Cart (3)</a>
+          <a href="index.html" class="${isHome ? 'active' : ''}">🏠 Home</a>
+          <a href="pages/browse.html" class="${isBrowse ? 'active' : ''}">💎 Browse Collection</a>
+          <a href="pages/orders.html" class="${isOrders ? 'active' : ''}">📦 Track Orders</a>
+          <a href="pages/cart.html" class="${isCart ? 'active' : ''}">🛒 Shopping Cart (3)</a>
         </div>
         <div class="mobile-drawer-auth">
           ${authSection}
@@ -229,7 +238,7 @@
       const href = (link.getAttribute('href') || '').toLowerCase();
       link.classList.remove('active');
       if (
-        (activePage === 'home' && href.includes('home.html')) ||
+        (activePage === 'home' && href.includes('index.html')) ||
         ((activePage === 'browse' || activePage === 'product') && href.includes('browse.html')) ||
         (activePage === 'orders' && href.includes('orders.html'))
       ) {
@@ -316,10 +325,10 @@
       logoutBtn.addEventListener('click', function (e) {
         e.preventDefault();
         if (window.AksharAuth) {
-          window.AksharAuth.logout('home.html');
+          window.AksharAuth.logout(siteAssetPath('index.html'));
         } else {
           localStorage.removeItem('akshar_auth_user');
-          window.location.href = 'home.html';
+          window.location.href = siteAssetPath('index.html');
         }
       });
     }
@@ -329,10 +338,10 @@
       mobileLogoutBtn.addEventListener('click', function (e) {
         e.preventDefault();
         if (window.AksharAuth) {
-          window.AksharAuth.logout('home.html');
+          window.AksharAuth.logout(siteAssetPath('index.html'));
         } else {
           localStorage.removeItem('akshar_auth_user');
-          window.location.href = 'home.html';
+          window.location.href = siteAssetPath('index.html');
         }
       });
     }

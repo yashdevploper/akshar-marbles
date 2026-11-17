@@ -3,7 +3,7 @@
   let product = null;
   const page = document.querySelector(".product-detail-grid");
   const tabs = document.querySelector(".product-tabs-wrapper");
-  const DATA_FILE = "assets/data/akshar_marbles_product_data.xlsx";
+  const DATA_FILE = "../assets/data/akshar_marbles_product_data.xlsx";
 
   function cell(row, column) {
     const value = row[column];
@@ -20,7 +20,15 @@
       return "";
     }
     try {
-      return new URL(value.replace(/\\/g, "/"), document.baseURI).href;
+      const normalized = value.replace(/\\/g, "/")
+        .replace(/^assets\/Front-images\//, "assets/images/")
+        .replace(/^assets\/background\//, "assets/images/background/")
+        .replace(/^assets\/video\//, "assets/videos/");
+      const pagePrefix = window.location.pathname.toLowerCase().includes("/pages/")
+        || window.location.pathname.toLowerCase().includes("/admin/")
+        ? "../"
+        : "";
+      return new URL(normalized.startsWith("assets/") ? pagePrefix + normalized : normalized, document.baseURI).href;
     } catch (error) {
       return "";
     }

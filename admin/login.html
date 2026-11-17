@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Admin Sign In | Akshar Marbles</title>
-  <link rel="stylesheet" href="common.css">
-  <link rel="stylesheet" href="auth.css">
+  <link rel="stylesheet" href="../assets/css/base/common.css">
+  <link rel="stylesheet" href="../assets/css/pages/auth.css">
 </head>
 <body>
 
@@ -15,7 +15,7 @@
       <!-- Left Panel: Administration Hero Showcase -->
       <div class="auth-hero-panel">
         <div class="auth-hero-header">
-          <a href="home.html" class="auth-hero-brand">
+          <a href="../index.html" class="auth-hero-brand">
             <div class="brand-icon">◆</div>
             <div class="brand-name">
               Akshar Marbles
@@ -30,7 +30,7 @@
           
           <div class="auth-social-proof">
             <div class="avatar-stack">
-              <img src="assets/avatar-rajan.svg" alt="Admin Rajan Mehta">
+              <img src="../assets/avatar-rajan.svg" alt="Admin Rajan Mehta">
             </div>
             <span>Super Administrator Console</span>
           </div>
@@ -94,8 +94,8 @@
           </button>
 
           <div class="auth-bottom-switch" style="display:flex; justify-content:space-between; margin-top:24px;">
-            <a href="home.html">← Client Storefront</a>
-            <a href="login.html">Client Sign In →</a>
+            <a href="../index.html">← Client Storefront</a>
+            <a href="../pages/login.html">Client Sign In →</a>
           </div>
         </form>
       </div>
@@ -103,7 +103,7 @@
     </div>
   </div>
 
-  <script src="Components/auth.js"></script>
+  <script src="../components/auth.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       // Check query params for alerts
@@ -117,7 +117,7 @@
       if (window.AksharAuth) {
         const user = window.AksharAuth.getUser();
         if (user && user.role === 'admin') {
-          const redirect = params.get('redirect') || 'admin-dashboard.html';
+          const redirect = params.get('redirect') || 'dashboard.html';
           window.location.replace(redirect);
           return;
         }
@@ -134,7 +134,7 @@
       }
 
       function handleAdminAuth(email) {
-        const redirect = params.get('redirect') || 'admin-dashboard.html';
+        const redirect = params.get('redirect') || 'dashboard.html';
         if (window.AksharAuth) {
           window.AksharAuth.login(email, 'admin');
         } else {
@@ -143,7 +143,7 @@
             email: email,
             role: 'admin',
             title: 'Super Admin',
-            avatar: 'assets/avatar-rajan.svg'
+            avatar: '../assets/avatar-rajan.svg'
           }));
         }
         window.location.href = redirect;

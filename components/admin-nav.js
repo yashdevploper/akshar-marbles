@@ -1,10 +1,10 @@
 (function () {
   function getCurrentPage() {
     const path = window.location.pathname.toLowerCase();
-    if (path.includes('admin-inventory.html')) return 'inventory';
-    if (path.includes('admin-pricing-discounts.html')) return 'pricing';
-    if (path.includes('admin-customers.html')) return 'customers';
-    if (path.includes('admin-logistics.html')) return 'logistics';
+    if (path.includes('/admin/inventory.html')) return 'inventory';
+    if (path.includes('/admin/pricing-discounts.html')) return 'pricing';
+    if (path.includes('/admin/customers.html')) return 'customers';
+    if (path.includes('/admin/logistics.html')) return 'logistics';
     return 'dashboard';
   }
 
@@ -12,26 +12,26 @@
     switch (page) {
       case 'inventory':
         return [
-          { label: 'Dashboard', href: 'admin-dashboard.html' },
-          { label: 'Catalogue', href: 'admin-inventory.html' },
+          { label: 'Dashboard', href: 'dashboard.html' },
+          { label: 'Catalogue', href: 'inventory.html' },
           { label: 'Inventory Management', href: null }
         ];
       case 'pricing':
         return [
-          { label: 'Dashboard', href: 'admin-dashboard.html' },
-          { label: 'Catalogue', href: 'admin-pricing-discounts.html' },
+          { label: 'Dashboard', href: 'dashboard.html' },
+          { label: 'Catalogue', href: 'pricing-discounts.html' },
           { label: 'Pricing & Discounts', href: null }
         ];
       case 'customers':
         return [
-          { label: 'Dashboard', href: 'admin-dashboard.html' },
-          { label: 'Operations', href: 'admin-customers.html' },
+          { label: 'Dashboard', href: 'dashboard.html' },
+          { label: 'Operations', href: 'customers.html' },
           { label: 'Customer Management', href: null }
         ];
       case 'logistics':
         return [
-          { label: 'Dashboard', href: 'admin-dashboard.html' },
-          { label: 'Operations', href: 'admin-logistics.html' },
+          { label: 'Dashboard', href: 'dashboard.html' },
+          { label: 'Operations', href: 'logistics.html' },
           { label: 'Logistics & Delivery', href: null }
         ];
       default:
@@ -49,8 +49,8 @@
         const data = localStorage.getItem('akshar_auth_user');
         const user = data ? JSON.parse(data) : null;
         if (!user || user.role !== 'admin') {
-          const current = window.location.pathname.split('/').pop() || 'admin-dashboard.html';
-          window.location.replace(`admin-login.html?redirect=${encodeURIComponent(current)}`);
+          const current = window.location.pathname.split('/').pop() || 'dashboard.html';
+          window.location.replace(`login.html?redirect=${encodeURIComponent(current)}`);
         }
       } catch (e) {
         // Continue if local storage is restricted
@@ -82,22 +82,22 @@
       <div class="brand"><span class="brand-logo-icon">${navIcon('brand')}</span><span class="brand-copy">Akshar Marbles<small>ADMIN CONSOLE</small></span></div>
       <div class="admin-nav-links">
       <p>OVERVIEW</p>
-      <a href="admin-dashboard.html"><span class="admin-nav-icon">${navIcon('dashboard')}</span><span>Dashboard</span></a>
+      <a href="dashboard.html"><span class="admin-nav-icon">${navIcon('dashboard')}</span><span>Dashboard</span></a>
       <p>CATALOGUE</p>
-      <a href="admin-inventory.html"><span class="admin-nav-icon">${navIcon('inventory')}</span><span>Inventory</span></a>
-      <a href="admin-pricing-discounts.html"><span class="admin-nav-icon">${navIcon('pricing')}</span><span>Pricing &amp; Discounts</span></a>
+      <a href="inventory.html"><span class="admin-nav-icon">${navIcon('inventory')}</span><span>Inventory</span></a>
+      <a href="pricing-discounts.html"><span class="admin-nav-icon">${navIcon('pricing')}</span><span>Pricing &amp; Discounts</span></a>
       <p>OPERATIONS</p>
-      <a href="admin-customers.html"><span class="admin-nav-icon">${navIcon('customers')}</span><span>Customers</span></a>
-      <a href="admin-logistics.html"><span class="admin-nav-icon">${navIcon('logistics')}</span><span>Logistics</span></a>
-      <a href="admin-dashboard.html#reports"><span class="admin-nav-icon">${navIcon('reports')}</span><span>Reports</span></a>
+      <a href="customers.html"><span class="admin-nav-icon">${navIcon('customers')}</span><span>Customers</span></a>
+      <a href="logistics.html"><span class="admin-nav-icon">${navIcon('logistics')}</span><span>Logistics</span></a>
+      <a href="dashboard.html#reports"><span class="admin-nav-icon">${navIcon('reports')}</span><span>Reports</span></a>
       </div>
       <div class="admin-storefront-section">
-        <a href="home.html" target="_blank" class="admin-storefront-link" title="Open client storefront in new tab">
+        <a href="../index.html" target="_blank" class="admin-storefront-link" title="Open client storefront in new tab">
           <span class="admin-nav-icon">${navIcon('storefront')}</span><span>View Storefront</span>
         </a>
       </div>
       <div class="profile interactive-profile" title="Account Menu">
-        <img src="assets/avatar-rajan.svg" alt="Rajan Mehta" style="width:34px;height:34px;border-radius:50%;object-fit:cover;">
+        <img src="../assets/avatar-rajan.svg" alt="Rajan Mehta" style="width:34px;height:34px;border-radius:50%;object-fit:cover;">
         <span><b>Rajan Mehta</b><small>Super Admin</small></span>
         <span class="more-dots">${navIcon('more')}</span>
       </div>
@@ -111,21 +111,21 @@
       const href = (a.getAttribute('href') || '').toLowerCase();
       a.classList.remove('on');
 
-      if (page === 'dashboard' && href === 'admin-dashboard.html') {
+      if (page === 'dashboard' && href === 'dashboard.html') {
         a.classList.add('on');
-      } else if (page === 'inventory' && href.includes('admin-inventory.html')) {
+      } else if (page === 'inventory' && href.includes('inventory.html')) {
         a.classList.add('on');
-      } else if (page === 'pricing' && href.includes('admin-pricing-discounts.html')) {
+      } else if (page === 'pricing' && href.includes('pricing-discounts.html')) {
         a.classList.add('on');
-      } else if (page === 'customers' && href.includes('admin-customers.html')) {
+      } else if (page === 'customers' && href.includes('customers.html')) {
         a.classList.add('on');
-      } else if (page === 'logistics' && href.includes('admin-logistics.html')) {
+      } else if (page === 'logistics' && href.includes('logistics.html')) {
         a.classList.add('on');
       }
 
       // If Reports link is '#', point to dashboard reports section
       if (href === '#' && a.textContent.includes('Reports')) {
-        a.setAttribute('href', 'admin-dashboard.html#reports');
+        a.setAttribute('href', 'dashboard.html#reports');
       }
     });
 
@@ -145,7 +145,7 @@
           <b>Rajan Mehta</b>
           <small>Super Administrator</small>
         </div>
-        <a href="home.html" target="_blank"><span class="admin-nav-icon">${navIcon('storefront')}</span><span>View Storefront</span></a>
+        <a href="../index.html" target="_blank"><span class="admin-nav-icon">${navIcon('storefront')}</span><span>View Storefront</span></a>
         <div class="dropdown-divider"></div>
         <button type="button" id="admin-logout-btn" class="dropdown-logout-btn">
           <span class="admin-nav-icon">${navIcon('logout')}</span><span>Sign Out</span>
@@ -169,10 +169,10 @@
         logoutBtn.addEventListener('click', function (e) {
           e.preventDefault();
           if (window.AksharAuth) {
-            window.AksharAuth.logout('admin-login.html');
+            window.AksharAuth.logout('login.html');
           } else {
             localStorage.removeItem('akshar_auth_user');
-            window.location.href = 'admin-login.html';
+            window.location.href = 'login.html';
           }
         });
       }

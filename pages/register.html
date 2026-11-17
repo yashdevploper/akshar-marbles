@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Create Account | Akshar Marbles</title>
-  <link rel="stylesheet" href="common.css">
-  <link rel="stylesheet" href="auth.css">
+  <link rel="stylesheet" href="../assets/css/base/common.css">
+  <link rel="stylesheet" href="../assets/css/pages/auth.css">
 </head>
 <body>
 
@@ -15,7 +15,7 @@
       <!-- Left Panel: Luxury Community Showcase -->
       <div class="auth-hero-panel">
         <div class="auth-hero-header">
-          <a href="home.html" class="auth-hero-brand">
+          <a href="../index.html" class="auth-hero-brand">
             <div class="brand-icon">◆</div>
             <div class="brand-name">
               Akshar Marbles
@@ -168,7 +168,7 @@
     </div>
   </div>
 
-  <script src="Components/auth.js"></script>
+  <script src="../components/auth.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const form = document.getElementById('register-form');
@@ -185,7 +185,7 @@
             email: email,
             role: 'client',
             tier: 'New Member',
-            avatar: 'assets/avatar-ananya.svg'
+            avatar: '../assets/avatar-ananya.svg'
           };
 
           if (window.AksharAuth) {

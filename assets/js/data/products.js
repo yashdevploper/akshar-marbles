@@ -1,4 +1,9 @@
 (function () {
+  const assetPath = (path) => window.location.pathname.toLowerCase().includes('/pages/')
+    || window.location.pathname.toLowerCase().includes('/admin/')
+    ? `../${path}`
+    : path;
+
   const products = [
     {
       id: "SKU-0021",
@@ -15,7 +20,7 @@
       reviews: 284,
       badge: { text: "Bestseller", type: "gold" },
       galleryFolder: "Statuario White",
-      image: "assets/Front-images/Statuario white Italian marble slab with dramatic grey veining, polished surface, luxury material ph.png",
+      image: assetPath("assets/images/Statuario white Italian marble slab with dramatic grey veining, polished surface, luxury material ph.png"),
       spec: 'Italy · Polished · 24"×24"',
       dimensions: '24"×24"',
       description: "The pinnacle of Italian marble craftsmanship — bold, dramatic veining on a pristine white canvas. A timeless symbol of luxury.",
@@ -50,7 +55,7 @@
       reviews: 196,
       badge: { text: "Premium", type: "green" },
       galleryFolder: "Calacatta Gold",
-      image: "assets/Front-images/Calacatta Gold Italian marble with golden yellow veins on white background, luxury interior stone, p.png",
+      image: assetPath("assets/images/Calacatta Gold Italian marble with golden yellow veins on white background, luxury interior stone, p.png"),
       spec: 'Italy · Polished · 24"×48"',
       dimensions: '24"×48"'
     },
@@ -69,7 +74,7 @@
       reviews: 142,
       badge: { text: "Bestseller", type: "gold" },
       galleryFolder: "Nero Marquina",
-      image: "assets/Front-images/black Nero Marquina Spanish marble texture with white veins, luxury stone surface, premium quality.png",
+      image: assetPath("assets/images/black Nero Marquina Spanish marble texture with white veins, luxury stone surface, premium quality.png"),
       spec: 'Spain · Honed · 24"×24"',
       dimensions: '24"×24"'
     },
@@ -88,7 +93,7 @@
       reviews: 98,
       badge: { text: "Rich Texture", type: "gold" },
       galleryFolder: "Emperador Dark",
-      image: "assets/marble-emperador.svg",
+      image: assetPath("assets/marble-emperador.svg"),
       spec: 'Spain · Polished · 18"×18"',
       dimensions: '18"×18"'
     },
@@ -107,7 +112,7 @@
       reviews: 67,
       badge: { text: "Exotic Luxury", type: "green" },
       galleryFolder: "Onyx Green",
-      image: "assets/Front-images/translucent green onyx stone slab with backlit glow, exotic luxury interior material, jewel-like nat.png",
+      image: assetPath("assets/images/translucent green onyx stone slab with backlit glow, exotic luxury interior material, jewel-like nat.png"),
       spec: 'Pakistan · Backlit · 24"×48"',
       dimensions: '24"×48"'
     },
@@ -126,7 +131,7 @@
       reviews: 218,
       badge: { text: "Heritage Stone", type: "gold" },
       galleryFolder: "Makrana White",
-      image: "assets/Front-images/Rajasthan white makrana marble India, traditional Indian marble flooring pattern, natural stone luxu.png",
+      image: assetPath("assets/images/Rajasthan white makrana marble India, traditional Indian marble flooring pattern, natural stone luxu.png"),
       spec: 'India · Polished · 24"×24"',
       dimensions: '24"×24"'
     },
@@ -145,7 +150,7 @@
       reviews: 84,
       badge: null,
       galleryFolder: "Bianco Sivec",
-      image: "assets/Front-images/polished Italian white Carrara marble surface close-up, elegant veining pattern, luxury stone textur.png",
+      image: assetPath("assets/images/polished Italian white Carrara marble surface close-up, elegant veining pattern, luxury stone textur.png"),
       spec: 'Italy · Honed · 18"×18"',
       dimensions: '18"×18"'
     },
@@ -164,7 +169,7 @@
       reviews: 32,
       badge: { text: "New Arrival", type: "gold" },
       galleryFolder: "Arabescato Corchia",
-      image: "assets/marble-arabescato.svg",
+      image: assetPath("assets/marble-arabescato.svg"),
       spec: 'Italy · Polished · 24"×24"',
       dimensions: '24"×24"'
     },
@@ -183,7 +188,7 @@
       reviews: 102,
       badge: { text: "15% OFF", type: "gold" },
       galleryFolder: "Crystal White",
-      image: "assets/marble-crystal.svg",
+      image: assetPath("assets/marble-crystal.svg"),
       spec: 'Turkey · Polished · 24"×24"',
       dimensions: '24"×24"'
     },
@@ -202,7 +207,7 @@
       reviews: 115,
       badge: { text: "Durable", type: "green" },
       galleryFolder: "Black Galaxy Granite",
-      image: "assets/marble-nero.svg",
+      image: assetPath("assets/marble-nero.svg"),
       spec: 'India · Leathered · 24"×24"',
       dimensions: '24"×24"'
     },
@@ -221,7 +226,7 @@
       reviews: 154,
       badge: { text: "Classic", type: "gold" },
       galleryFolder: "Crema Marfil",
-      image: "assets/marble-bianco.svg",
+      image: assetPath("assets/marble-bianco.svg"),
       spec: 'Spain · Brushed · 24"×24"',
       dimensions: '24"×24"'
     },
@@ -240,7 +245,7 @@
       reviews: 76,
       badge: { text: "Natural Art", type: "green" },
       galleryFolder: "Rainforest Green",
-      image: "assets/marble-onyx.svg",
+      image: assetPath("assets/marble-onyx.svg"),
       spec: 'India · Brushed · 24"×24"',
       dimensions: '24"×24"'
     }

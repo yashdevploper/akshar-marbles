@@ -12,6 +12,10 @@
   }
 })(typeof self !== 'undefined' ? self : this, function () {
   const STORAGE_KEY = 'akshar_auth_user';
+  const sitePath = (path) => window.location.pathname.toLowerCase().includes('/pages/')
+    || window.location.pathname.toLowerCase().includes('/admin/')
+    ? `../${path}`
+    : path;
 
   // Standard demo users for the application
   const DEMO_USERS = {
@@ -20,7 +24,7 @@
       name: 'Ananya Sharma',
       email: 'ananya@email.com',
       role: 'client',
-      avatar: 'assets/avatar-ananya.svg',
+      avatar: sitePath('assets/avatar-ananya.svg'),
       phone: '+91 98765 43210',
       tier: 'VIP Gold'
     },
@@ -29,7 +33,7 @@
       name: 'Rajan Mehta',
       email: 'rajan@aksharmarbles.com',
       role: 'admin',
-      avatar: 'assets/avatar-rajan.svg',
+      avatar: sitePath('assets/avatar-rajan.svg'),
       title: 'Super Admin'
     }
   };
@@ -77,11 +81,11 @@
     setUser(user);
 
     // Return the designated post-login landing page
-    if (user.role === 'admin') {
-      return 'admin-dashboard.html';
-    } else {
-      return 'browse.html';
-    }
+    return user.role === 'admin' && window.location.pathname.toLowerCase().includes('/admin/')
+      ? 'dashboard.html'
+      : user.role === 'admin'
+        ? '../admin/dashboard.html'
+        : 'browse.html';
   }
 
   function logout(redirectUrl) {
@@ -92,9 +96,9 @@
     if (redirectUrl) {
       window.location.href = redirectUrl;
     } else if (wasAdmin) {
-      window.location.href = 'admin-login.html';
+      window.location.href = 'login.html';
     } else {
-      window.location.href = 'home.html';
+      window.location.href = sitePath('index.html');
     }
   }
 
@@ -108,20 +112,22 @@
     const user = getUser();
     const current = getCurrentFileName();
 
-    // If on admin-login.html and already logged in as admin, redirect to admin dashboard
-    if (current === 'admin-login.html') {
+    const isAdminPath = window.location.pathname.toLowerCase().includes('/admin/');
+
+    // If on admin/login.html and already logged in as admin, redirect to the dashboard
+    if (isAdminPath && current === 'login.html') {
       if (user && user.role === 'admin') {
-        window.location.replace('admin-dashboard.html');
+        window.location.replace('dashboard.html');
       }
       return;
     }
 
     // Protect all admin management pages
-    if (current.startsWith('admin-')) {
+    if (isAdminPath) {
       if (!user || user.role !== 'admin') {
         // Redirect to admin login with return path
         const target = encodeURIComponent(current);
-        window.location.replace(`admin-login.html?redirect=${target}&reason=unauthorized`);
+        window.location.replace(`login.html?redirect=${target}&reason=unauthorized`);
       }
     }
   }
@@ -130,10 +136,10 @@
     const user = getUser();
     const current = getCurrentFileName();
 
-    if (current === 'login.html') {
+    if (current === 'login.html' && !window.location.pathname.toLowerCase().includes('/admin/')) {
       if (user) {
         if (user.role === 'admin') {
-          window.location.replace('admin-dashboard.html');
+          window.location.replace('../admin/dashboard.html');
         } else {
           window.location.replace('browse.html');
         }

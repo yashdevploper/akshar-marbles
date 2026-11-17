@@ -1,0 +1,7 @@
+@import url('common.css');
+@import url('../pages/home.css');
+@import url('../pages/browse.css');
+@import url('../pages/product.css');
+@import url('../pages/cart.css');
+@import url('../pages/orders.css');
+@import url('../pages/auth.css');

@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sign In | Akshar Marbles</title>
-  <link rel="stylesheet" href="common.css">
-  <link rel="stylesheet" href="auth.css">
+  <link rel="stylesheet" href="../assets/css/base/common.css">
+  <link rel="stylesheet" href="../assets/css/pages/auth.css">
 </head>
 <body>
 
@@ -15,7 +15,7 @@
       <!-- Left Panel: Luxury Hero Showcase -->
       <div class="auth-hero-panel">
         <div class="auth-hero-header">
-          <a href="home.html" class="auth-hero-brand">
+          <a href="../index.html" class="auth-hero-brand">
             <div class="brand-icon">◆</div>
             <div class="brand-name">
               Akshar Marbles
@@ -30,9 +30,9 @@
           
           <div class="auth-social-proof">
             <div class="avatar-stack">
-              <img src="assets/avatar-ananya.svg" alt="Customer">
-              <img src="assets/avatar-rohan.svg" alt="Customer">
-              <img src="assets/avatar-priya.svg" alt="Customer">
+              <img src="../assets/avatar-ananya.svg" alt="Customer">
+              <img src="../assets/avatar-rohan.svg" alt="Customer">
+              <img src="../assets/avatar-priya.svg" alt="Customer">
             </div>
             <span>8,000+ happy customers</span>
           </div>
@@ -108,7 +108,7 @@
           <div class="auth-bottom-switch" style="display:flex; flex-direction:column; gap:10px; align-items:center;">
             <div>New to Akshar Marbles? <a href="register.html">Create Account</a></div>
             <div style="font-size:12px; border-top:1px solid #eeeae0; padding-top:8px; width:100%; text-align:center;">
-              Staff &amp; Operations? <a href="admin-login.html" style="font-weight:600; color:var(--g);">Admin Console Sign In →</a>
+              Staff &amp; Operations? <a href="../admin/login.html" style="font-weight:600; color:var(--g);">Admin Console Sign In →</a>
             </div>
           </div>
         </form>
@@ -117,7 +117,7 @@
     </div>
   </div>
 
-  <script src="Components/auth.js"></script>
+  <script src="../components/auth.js"></script>
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       if (window.AksharAuth) {
@@ -140,7 +140,7 @@
         if (window.AksharAuth) {
           destination = window.AksharAuth.login(email);
         } else {
-          destination = email.includes('admin') ? 'admin-dashboard.html' : 'browse.html';
+          destination = email.includes('admin') ? '../admin/dashboard.html' : 'browse.html';
         }
 
         window.location.href = redirectTarget || destination;
