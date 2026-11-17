@@ -8,6 +8,7 @@
 
   window.addEventListener("akshar:products-loaded", () => {
     PRODUCTS = Object.fromEntries((window.AksharProducts || []).map((product) => [product.id, product]));
+    renderCart();
   });
 
   function getUser() {

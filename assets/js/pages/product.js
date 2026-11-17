@@ -86,9 +86,9 @@
         text: cell(row, "Badge Text"),
         type: cell(row, "Badge Style")
       } : null,
-      stock: 1,
+      stock: 10000,
       minimumOrder: 1,
-      defaultQuantity: 1,
+      defaultQuantity: 100,
       productUrl: resolveUrl(cell(row, "Product URL"))
     };
     window.AksharProducts = [product];
@@ -285,13 +285,14 @@
       });
     });
 
-    document.querySelectorAll(".quantity-order-section .qty-btn").forEach((button, index) => {
+    document.querySelectorAll(".quantity-order-section .qty-btn").forEach((button) => {
       button.addEventListener("click", () => {
         if (!quantityDisplay || !product || product.stock < minimumOrder) {
           return;
         }
         const current = parseInt(quantityDisplay.textContent, 10) || minimumOrder;
-        const next = index === 0
+        const isDecrease = button.textContent.trim() === "−";
+        const next = isDecrease
           ? Math.max(minimumOrder, current - 1)
           : Math.min(product.stock, current + 1);
         quantityDisplay.textContent = String(next);

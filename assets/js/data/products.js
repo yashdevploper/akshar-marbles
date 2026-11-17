@@ -252,4 +252,75 @@
   ];
 
   window.AksharProducts = products;
+
+  const DATA_FILE = "assets/data/akshar_marbles_product_data.xlsx";
+
+  function spreadsheetAssetPath(value) {
+    if (!value) {
+      return "";
+    }
+
+    const normalized = value.replace(/\\/g, "/")
+      .replace(/^assets\/Front-images\//, "assets/images/")
+      .replace(/^assets\/background\//, "assets/images/background/")
+      .replace(/^assets\/video\//, "assets/videos/");
+    const pagePrefix = window.location.pathname.toLowerCase().includes("/pages/")
+      || window.location.pathname.toLowerCase().includes("/admin/")
+      ? "../"
+      : "";
+
+    return new URL(normalized.startsWith("assets/") ? pagePrefix + normalized : normalized, document.baseURI).href;
+  }
+
+  function spreadsheetCell(row, column) {
+    const value = row[column];
+    return value === undefined || value === null ? "" : String(value).trim();
+  }
+
+  function spreadsheetNumber(row, column) {
+    const value = Number(spreadsheetCell(row, column).replace(/[,₹]/g, ""));
+    return Number.isFinite(value) ? value : null;
+  }
+
+  async function loadSpreadsheetProducts() {
+    if (!window.XLSX) {
+      return;
+    }
+
+    const response = await fetch((window.location.pathname.toLowerCase().includes("/pages/")
+      || window.location.pathname.toLowerCase().includes("/admin/") ? "../" : "") + DATA_FILE);
+    if (!response.ok) {
+      throw new Error(`Product data file could not be loaded (${response.status}).`);
+    }
+
+    const workbook = XLSX.read(await response.arrayBuffer(), { type: "array" });
+    const worksheet = workbook.Sheets.Products;
+    if (!worksheet) {
+      throw new Error('The workbook does not contain a "Products" worksheet.');
+    }
+
+    const rows = XLSX.utils.sheet_to_json(worksheet, { defval: "" });
+    const spreadsheetProducts = rows.map((row) => ({
+      id: spreadsheetCell(row, "Product ID"),
+      title: spreadsheetCell(row, "Product Name"),
+      category: spreadsheetCell(row, "Category"),
+      origin: spreadsheetCell(row, "Origin"),
+      finish: spreadsheetCell(row, "Finish"),
+      dimensions: spreadsheetCell(row, "Tile Size"),
+      availability: spreadsheetCell(row, "Stock Status"),
+      price: spreadsheetNumber(row, "Current Price (INR)") || 0,
+      strikePrice: spreadsheetNumber(row, "Original Price (INR)"),
+      stock: 10000,
+      image: spreadsheetAssetPath(spreadsheetCell(row, "Image Path"))
+    })).filter((product) => product.id && product.title);
+
+    if (spreadsheetProducts.length) {
+      window.AksharProducts = spreadsheetProducts;
+      window.dispatchEvent(new CustomEvent("akshar:products-loaded"));
+    }
+  }
+
+  loadSpreadsheetProducts().catch((error) => {
+    console.warn("Spreadsheet product data could not be loaded:", error);
+  });
 })();
